@@ -1,0 +1,108 @@
+.modal {
+  position: absolute;
+  top: 32px;
+  right: 0;
+  width: 230px;
+  height: auto;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
+  overflow: hidden;
+
+  .userProfileContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 15px 15px 0 15px;
+
+    .userAvatar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 45px;
+      background-color: coral;
+      border-radius: 50%;
+      cursor: default;
+      overflow: hidden;
+
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .userInfoContainer {
+      font-size: 12px;
+      cursor: default;
+      width: 70%;
+
+      .userInfo {
+        p {
+          font-size: 14px;
+        }
+
+        p:last-child {
+          color: gray;
+          font-size: 12px;
+        }
+      }
+
+      .userProfileBtn {
+        cursor: pointer;
+      }
+    }
+  }
+
+  a {
+    color: #349A89 !important;
+  }
+
+  .editProfileBtn {
+    box-sizing: border-box;
+    padding: 15px;
+    cursor: pointer;
+  }
+
+  .buttonsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-evenly;
+    gap: 5px;
+    width: 100%;
+    border-top: 1px solid #b6b6b6;
+    box-sizing: border-box;
+    padding: 15px;
+
+    a {
+      cursor: pointer;
+    }
+  }
+}
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+
+  .userIcon {
+    width: 100%;
+    height: 100%;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}

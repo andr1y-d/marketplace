@@ -1,0 +1,24 @@
+# React (frontend)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.DS_Store
+
+# Laravel (backend)
+backend/vendor/
+backend/node_modules/
+backend/.env
+backend/.DS_Store
+backend/storage/*.key
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/logs/*
+
+# other
+.idea/
+*.log
+.DS_Store
+.env
+.env.*

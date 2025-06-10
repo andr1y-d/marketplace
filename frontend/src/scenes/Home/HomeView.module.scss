@@ -1,0 +1,24 @@
+.homeContainer {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 20px;
+  padding: 40px;
+  width: 80%;
+  height: calc(100vh - 202px);
+  max-width: 1000px;
+  margin: auto;
+
+  @media (max-width: 1140px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 890px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
