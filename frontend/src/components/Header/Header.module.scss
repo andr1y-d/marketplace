@@ -43,6 +43,20 @@
       justify-content: center;
       align-items: center;
 
+      .favouritesCount {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        right: 27px;
+        top: 23px;
+        background-color: #349a89;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        font-size: 13px;
+      }
+
       .icon {
         width: 30px;
         cursor: pointer;

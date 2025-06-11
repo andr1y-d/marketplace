@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import s from './UserIcon.module.scss'
-import {loadUserFromToken, userLogout} from "../../../store/auth/authThunks";
+import {loadUserFromToken, userLogout} from "store/auth/authThunks";
 import {useDispatch, useSelector} from "react-redux";
-  import {Link, useNavigate, generatePath} from "react-router-dom";
-import {ReactComponent as User} from "../../../assets/userIcon.svg";
-import {routes} from "../../../App";
-import {BASE_URL} from "../../../api/api";
+import {Link, useNavigate, generatePath} from "react-router-dom";
+
+import {routes} from "App";
+import {BASE_URL} from "api/api";
+import {clearFavourites} from "store/favourites/favouritesThunks";
+
+import {ReactComponent as User} from "assets/userIcon.svg";
+
+import s from './UserIcon.module.scss'
 
 export const UserIcon = ({ color }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -28,6 +32,7 @@ export const UserIcon = ({ color }) => {
       .then(() => {
         navigate('/');
       })
+    dispatch(clearFavourites())
   }
 
   const getFirstWord = (str = '') => str.split(' ')[0];

@@ -28,3 +28,11 @@ export const deleteFromUserFavourites = createAsyncThunk(
     return await deleteFavourite(id, token);
   }
 );
+
+export const clearFavourites = createAsyncThunk(
+  "favourites/clearFavourites",
+  async () => {
+    return true;
+  }
+);
+

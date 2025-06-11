@@ -9,6 +9,8 @@ import {ReactComponent as Favourites} from "../../assets/favourites.svg";
 
 export const Header = () => {
   const isAuthorized = useSelector(state => state.user.isAuthenticated);
+  const favouritesIds = useSelector(state => state.favourites.favourites)
+
   const location = useLocation()
 
   const isMainPage = location.pathname === routes.home;
@@ -30,6 +32,10 @@ export const Header = () => {
           : <Link to={routes.login}>Login</Link>
         }
         <Link className={s.favouritesIcon} to={routes.favourites}>
+          {
+            favouritesIds.length > 0
+            && <div className={s.favouritesCount}>{favouritesIds.length}</div>
+          }
           <Favourites className={s.icon} />
         </Link>
       </div>

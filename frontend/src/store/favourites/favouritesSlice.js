@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  addToUserFavourites, getUserFavourites, deleteFromUserFavourites
+  addToUserFavourites, getUserFavourites, deleteFromUserFavourites, clearFavourites
 } from './favouritesThunks';
 
 const favouritesSlice = createSlice({
@@ -29,6 +29,11 @@ const favouritesSlice = createSlice({
       .addCase(deleteFromUserFavourites.fulfilled, (state, action) => {
         state.loading = false;
         state.favourites = state.favourites.filter(id => id !== action.payload);
+      })
+
+      .addCase(clearFavourites.fulfilled, (state, action) => {
+        state.loading = false;
+        state.favourites = [];
       })
   }
 });

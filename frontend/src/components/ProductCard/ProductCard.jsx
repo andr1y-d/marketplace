@@ -13,6 +13,7 @@ import {
 export const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const photos = product.photos ? JSON.parse(product.photos) : [];
+
   const userId = useSelector(state => state.user.user?.id);
   const favouritesIds = useSelector(state => state.favourites.favourites);
   const isAuthorized = useSelector(state => state.user.isAuthenticated)
@@ -29,7 +30,7 @@ export const ProductCard = ({ product }) => {
   }, [favouritesIds]);
 
   const handleUnauthorizedUserClick = () => {
-
+    alert("You need to be authorized")
   }
 
   const handleClick = () => {
