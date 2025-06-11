@@ -37,6 +37,38 @@
     align-items: center;
     flex-direction: column;
 
+      .select {
+        width: 100%;
+        border: 1px solid rgb(204, 204, 204);
+        box-sizing: border-box;
+        border-radius: 5px;
+        height: 35px;
+        padding: 0 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f6f6f6;
+
+        select {
+          background-color: transparent;
+          border: none;
+          margin: 0 4px;
+        }
+
+        select:focus {
+          outline: none;
+        }
+
+        .select, input {
+          height: 35px;
+          border: 1px solid gainsboro;
+          border-radius: 5px;
+          background-color: white;
+          box-sizing: border-box;
+          padding: 0 12px;
+        }
+      }
+
     label {
       width: 100%;
     }

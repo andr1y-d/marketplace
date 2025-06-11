@@ -22,7 +22,7 @@ export const Input = ({label, name, type, tp, ...props}) => {
       {
         tp
         ?
-        <Field name={name} as="textarea">
+        <Field name={name}>
           {({ field, meta }) => (
             <>
               <textarea

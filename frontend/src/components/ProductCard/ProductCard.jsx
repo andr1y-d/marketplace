@@ -16,6 +16,7 @@ export const ProductCard = ({ product }) => {
 
   const userId = useSelector(state => state.user.user?.id);
   const favouritesIds = useSelector(state => state.favourites.favourites);
+
   const isAuthorized = useSelector(state => state.user.isAuthenticated)
 
   const [favouriteStyle, setFavouriteStyle] = useState(s.addToFavouritesIcon);
@@ -27,7 +28,7 @@ export const ProductCard = ({ product }) => {
         ? s.addToFavouritesActiveIcon
         : s.addToFavouritesIcon
     )
-  }, [favouritesIds]);
+  }, [favouritesIds, product]);
 
   const handleUnauthorizedUserClick = () => {
     alert("You need to be authorized")

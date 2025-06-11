@@ -4,18 +4,22 @@ import {Input} from "../../Form/Input/Input";
 import s from './AddProductModal.module.scss'
 import * as Yup from "yup";
 import {Header} from './Header/Header'
-import {createProduct} from "../../../store/product/productThunks";
+import {createProduct} from "store/product/productThunks";
 import {useDispatch} from "react-redux";
 import PhotoUploader from "../../Form/PhotoUploader/PhotoUploader";
+import {SelectCategory} from "../../Form/SelectCategory/SelectCategory";
+
 
 export const AddProductModal = ({ setOpen }) => {
   const dispatch = useDispatch();
+
   const [photos, setPhotos] = useState([]);
+  const [category, setCategory] = useState('');
 
   const handleValidateAndSubmit = async (e, formik) => {
     e.preventDefault();
     await formik.setTouched(
-      { title: true, location: true, description: true, photos: true, price: true },
+      { title: true, category: true, location: true, description: true, photos: true, price: true },
       true
     );
 
@@ -28,6 +32,7 @@ export const AddProductModal = ({ setOpen }) => {
 
   const validationSchema = Yup.object({
     title: Yup.string().required(),
+    category: Yup.string(),
     location: Yup.string().required(),
     description: Yup.string().required(),
     photos: Yup.array(),
@@ -37,6 +42,7 @@ export const AddProductModal = ({ setOpen }) => {
   const handleSubmit = async (values) => {
     const formData = new FormData();
     formData.append("title", values.title);
+    formData.append("category", category);
     formData.append("description", values.description);
     formData.append("location", values.location);
     formData.append("price", values.price);
@@ -52,7 +58,7 @@ export const AddProductModal = ({ setOpen }) => {
     <div className={s.modal}>
       <Header setOpen={setOpen} />
       <Formik
-        initialValues={{ title: "", location: "", description: "", photos: [], price: "" }}
+        initialValues={{ title: "", category: "", location: "", description: "", photos: [], price: "" }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
           handleSubmit(values)
@@ -63,6 +69,7 @@ export const AddProductModal = ({ setOpen }) => {
           <Form>
             <div className={s.inputs}>
               <Input name='title' type='text' label='TITLE' placeholder='For example: Computer' />
+              <SelectCategory name='caregory' label='CATEGORY' category={category} setCategory={setCategory} />
               <Input name='location' type='text' label='LOCATION' placeholder='For example: LA, California' />
               <Input name='description' type='text' label='DESCRIPTION' tp='big' placeholder='About product' />
               <PhotoUploader label='PHOTOS' setPhotos={setPhotos} photos={photos} />

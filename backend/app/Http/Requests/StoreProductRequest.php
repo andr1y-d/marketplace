@@ -23,6 +23,7 @@ class StoreProductRequest extends FormRequest
   {
     return [
       'title' => 'required|string|max:50',
+      'category' => 'required|string|max:50',
       'ownerId' => 'integer|exists:users,id',
       'description' => 'required|string|max:1500',
       'photos.*' => 'string',
