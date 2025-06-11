@@ -50,8 +50,8 @@ export const UserIcon = ({ color }) => {
           <div className={s.userProfileContainer}>
             <div className={s.userAvatar}>
               {
-                parsedUser?.avatar
-                  ? <img src={`${BASE_URL}/${parsedUser?.avatar}`} alt="avatar"/>
+                parsedUser.avatar !== null
+                  ? <img src={`${BASE_URL}/${parsedUser.avatar}`} alt="avatar"/>
                   : parsedUser.fullName[0]
               }
             </div>

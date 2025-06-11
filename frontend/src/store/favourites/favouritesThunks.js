@@ -5,11 +5,10 @@ import {
   deleteFavourite
 } from "../../api/favourites";
 
-const token = localStorage.getItem('token');
-
 export const getUserFavourites = createAsyncThunk(
   "favourites/getUserFavourites",
   async () => {
+    const token = localStorage.getItem('token');
     return await getFavourites(token);
   }
 );
@@ -17,6 +16,7 @@ export const getUserFavourites = createAsyncThunk(
 export const addToUserFavourites = createAsyncThunk(
   "favourites/addToUserFavourites",
   async (data) => {
+    const token = localStorage.getItem('token');
     return await addToFavourites(data, token);
   }
 );
@@ -24,6 +24,7 @@ export const addToUserFavourites = createAsyncThunk(
 export const deleteFromUserFavourites = createAsyncThunk(
   "favourites/deleteFromUserFavourites",
   async (id) => {
+    const token = localStorage.getItem('token');
     return await deleteFavourite(id, token);
   }
 );

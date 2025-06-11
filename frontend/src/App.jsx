@@ -4,7 +4,7 @@ import { LoginView } from "./scenes/Auth/Login/LoginView";
 import { RegisterView } from "./scenes/Auth/Register/RegisterView";
 import { Header } from "./components/Header/Header";
 import { loadUserFromToken } from "./store/auth/authThunks";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { HomeView } from "./scenes/Home/HomeView";
 import { ProductView } from "./scenes/Product/ProductView";
 import { ProfileView } from "./scenes/Profile/ProfileView";
@@ -28,12 +28,16 @@ export const routes = {
 
 export const App = () => {
   const dispatch = useDispatch();
+  const isAuthorized = useSelector(state => state.user.isAuthenticated)
 
-  useEffect(() => {
+  useEffect( () => {
     dispatch(loadUserFromToken());
     dispatch(getProducts());
-    dispatch(getUserFavourites());
   }, [dispatch]);
+
+  useEffect(() => {
+    isAuthorized && dispatch(getUserFavourites());
+  }, [isAuthorized, dispatch]);
 
   return (
     <BrowserRouter>

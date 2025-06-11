@@ -7,6 +7,7 @@ import s from './Login.module.scss';
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import {Input} from "../../../components/Form/Input/Input";
+import {getUserFavourites} from "../../../store/favourites/favouritesThunks";
 
 export const LoginView = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ export const LoginView = () => {
       .unwrap()
       .then(() => {
         navigate('/');
+        dispatch(getUserFavourites());
       })
   }
 

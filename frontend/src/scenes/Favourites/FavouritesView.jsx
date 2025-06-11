@@ -6,9 +6,11 @@ import {ProductCard} from "components/ProductCard/ProductCard";
 import {Loader} from "components/Loader/Loader";
 
 import s from "./FavouritesView.module.scss";
+import {MakeUserLoginModal} from "../../components/Modals/MakeUserLoginModal/MakeUserLoginModal";
 
 export const FavouritesView = () => {
   const products = useSelector(state => state.product.products);
+  const isAuthorized = useSelector(state => state.user.isAuthenticated)
 
   const favouritesIds = useSelector(state => state.favourites.favourites);
   const favouritesSet = new Set(favouritesIds);

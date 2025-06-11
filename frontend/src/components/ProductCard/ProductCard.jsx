@@ -15,8 +15,10 @@ export const ProductCard = ({ product }) => {
   const photos = product.photos ? JSON.parse(product.photos) : [];
   const userId = useSelector(state => state.user.user?.id);
   const favouritesIds = useSelector(state => state.favourites.favourites);
+  const isAuthorized = useSelector(state => state.user.isAuthenticated)
 
   const [favouriteStyle, setFavouriteStyle] = useState(s.addToFavouritesIcon);
+
 
   useEffect(() => {
     setFavouriteStyle(
@@ -25,6 +27,10 @@ export const ProductCard = ({ product }) => {
         : s.addToFavouritesIcon
     )
   }, [favouritesIds]);
+
+  const handleUnauthorizedUserClick = () => {
+
+  }
 
   const handleClick = () => {
     if(favouritesIds.includes(product.id)) {
@@ -35,8 +41,13 @@ export const ProductCard = ({ product }) => {
         "user_id": userId,
         "product_id": product.id,
       }
-      dispatch(addToUserFavourites(data));
-      setFavouriteStyle(s.addToFavouritesActiveIcon);
+
+      if (isAuthorized) {
+        dispatch(addToUserFavourites(data));
+        setFavouriteStyle(s.addToFavouritesActiveIcon);
+      } else {
+        handleUnauthorizedUserClick()
+      }
     }
   }
 
