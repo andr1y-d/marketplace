@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {generatePath, Link, useParams} from "react-router-dom";
 import { getProduct } from "../../store/product/productThunks";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { routes } from "../../App";
 import noPhotoImg from "../../assets/noPhotoImg.jpg";
 import {Loader} from "../../components/Loader/Loader";
 import {BASE_URL} from "../../api/api";
+import {addToUserFavourites, deleteFromUserFavourites} from "../../store/favourites/favouritesThunks";
 
 export const ProductView = () => {
   let productPhotos = [];
@@ -30,6 +31,44 @@ export const ProductView = () => {
   const loading = useSelector((state) => state.product.loading);
   const dispatch = useDispatch();
   const {id} = useParams();
+
+  const userId = useSelector(state => state.user.user?.id);
+  const favouritesIds = useSelector(state => state.favourites.favourites);
+  const isAuthorized = useSelector(state => state.user.isAuthenticated)
+
+  const [favouriteStyle, setFavouriteStyle] = useState(s.addToFavouritesIcon);
+
+
+  useEffect(() => {
+    setFavouriteStyle(
+      favouritesIds.includes(product.id)
+        ? s.addToFavouritesActiveIcon
+        : s.addToFavouritesIcon
+    )
+  }, [favouritesIds, product]);
+
+  const handleUnauthorizedUserClick = () => {
+    alert("You need to be authorized")
+  }
+
+  const handleClick = () => {
+    if(favouritesIds.includes(product.id)) {
+      dispatch(deleteFromUserFavourites(product.id));
+      setFavouriteStyle(s.addToFavouritesIcon);
+    } else {
+      const data = {
+        "user_id": userId,
+        "product_id": product.id,
+      }
+
+      if (isAuthorized) {
+        dispatch(addToUserFavourites(data));
+        setFavouriteStyle(s.addToFavouritesActiveIcon);
+      } else {
+        handleUnauthorizedUserClick()
+      }
+    }
+  }
 
   useEffect(() => {
     dispatch(getProduct(id));
@@ -58,16 +97,6 @@ export const ProductView = () => {
   const formattedDate = date.isToday()
     ? `Today ${date.format('HH:mm')}`
     : date.format('DD.MM HH:mm');
-
-  const handleClick = (e) => {
-    const el = e.target;
-    const paths = el.querySelectorAll('path');
-
-    paths.forEach(path => {
-      path.style.fill = '#349a89';
-      path.style.stroke = '#349a89';
-    });
-  }
 
   return (
     <Fragment>
@@ -120,7 +149,7 @@ export const ProductView = () => {
                 <div className={s.buttonsContainer}>
                   <div className={s.chat}>CHAT WITH SELLER</div>
                   <div className={s.addToFavourites} onClick={(e) => handleClick(e)}>
-                    <AddToFavouritesIcon className={s.addToFavouritesIcon} />
+                    <AddToFavouritesIcon className={favouriteStyle} />
                     ADD TO FAVOURITES
                   </div>
                 </div>

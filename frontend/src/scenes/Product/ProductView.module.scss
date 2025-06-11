@@ -210,8 +210,8 @@
         .addToFavouritesIcon {
           position: relative;
           cursor: pointer;
-          width: 18px;
-          height: 18px;
+          width: 20px;
+          height: 20px;
           overflow: visible;
           color: #349a89;
           shape-rendering: geometricPrecision;
@@ -220,6 +220,24 @@
             margin: 3px;
             fill: none;
             stroke: gray;
+            stroke-width: 1.5;
+            vector-effect: non-scaling-stroke;
+          }
+        }
+
+        .addToFavouritesActiveIcon {
+          position: relative;
+          cursor: pointer;
+          width: 20px;
+          height: 20px;
+          overflow: visible;
+          color: #349a89;
+          shape-rendering: geometricPrecision;
+
+          path {
+            margin: 3px;
+            fill: #349a89;
+            stroke: #349a89;
             stroke-width: 1.5;
             vector-effect: non-scaling-stroke;
           }
