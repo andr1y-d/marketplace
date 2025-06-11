@@ -1,19 +1,19 @@
 import React, {Fragment, useEffect, useState} from "react";
-import {generatePath, Link, useParams} from "react-router-dom";
-import { getProduct } from "../../store/product/productThunks";
+import {generatePath, Link, useNavigate, useParams} from "react-router-dom";
+import {deleteProductFromList, destroyProduct, getProduct} from "store/product/productThunks";
 import { useDispatch, useSelector } from "react-redux";
 import s from './ProductView.module.scss';
 import { Carousel } from 'components/Carousel/Carousel';
-import { SearchFilter } from "../../components/SearchFilter/SearchFilter";
+import { SearchFilter } from "components/SearchFilter/SearchFilter";
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
-import { ReactComponent as LocationIcon } from "../../assets/locationIcon.svg";
+import { ReactComponent as LocationIcon } from "assets/locationIcon.svg";
 import { ReactComponent as AddToFavouritesIcon } from 'assets/Apiko Marketplace Shape.svg';
-import { routes } from "../../App";
-import noPhotoImg from "../../assets/noPhotoImg.jpg";
-import {Loader} from "../../components/Loader/Loader";
-import {BASE_URL} from "../../api/api";
-import {addToUserFavourites, deleteFromUserFavourites} from "../../store/favourites/favouritesThunks";
+import { routes } from "App";
+import noPhotoImg from "assets/noPhotoImg.jpg";
+import {Loader} from "components/Loader/Loader";
+import {BASE_URL} from "api/api";
+import {addToUserFavourites, deleteFromUserFavourites} from "store/favourites/favouritesThunks";
 
 export const ProductView = () => {
   let productPhotos = [];
@@ -29,9 +29,14 @@ export const ProductView = () => {
 
   const product = useSelector((state) => state.product.product);
   const loading = useSelector((state) => state.product.loading);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {id} = useParams();
 
+  // після цієї стрічки в ProductCard 34 line є дубль цого коду
+  // - потрібно забрати дубль
   const userId = useSelector(state => state.user.user?.id);
   const favouritesIds = useSelector(state => state.favourites.favourites);
   const isAuthorized = useSelector(state => state.user.isAuthenticated)
@@ -47,8 +52,22 @@ export const ProductView = () => {
     )
   }, [favouritesIds, product]);
 
+  const handleEdit = () => {
+    alert('реалізувати')
+    // product edit
+  }
+
+  const handleDelete = () => {
+    dispatch(destroyProduct(product.id))
+      .then(() => navigate(routes.home))
+    dispatch(deleteProductFromList(product.id))
+  }
+
   const handleUnauthorizedUserClick = () => {
-    alert("You need to be authorized")
+    alert("реалізувати")
+    // додавання до улюблених неавторизованим користувачам,
+    // ідея щоб зберігати їх локально поки користувач не залогіниться,
+    // після - перенести дані з localstorage в бд для користувача
   }
 
   const handleClick = () => {
@@ -153,6 +172,14 @@ export const ProductView = () => {
                     ADD TO FAVOURITES
                   </div>
                 </div>
+                {
+                  userId === ownerId
+                  &&
+                  <div className={s.actionsOnProduct}>
+                    <div className={s.edit} onClick={handleEdit}>EDIT</div>
+                    <div className={s.delete} onClick={handleDelete}>DELETE</div>
+                  </div>
+                }
               </div>
             </>
           }

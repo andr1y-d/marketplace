@@ -7,6 +7,7 @@ import {
   changeProduct,
   destroyProduct,
   latestProducts,
+  deleteProductFromList,
 } from './productThunks';
 
 const productSlice = createSlice({
@@ -91,14 +92,24 @@ const productSlice = createSlice({
         }
       })
 
+
+      .addCase(destroyProduct.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(destroyProduct.fulfilled, (state, action) => {
+        state.loading = false;
         const id = action.payload;
         state.products = state.products.filter(p => p.id !== id);
         state.userProducts = state.userProducts.filter(p => p.id !== id);
         if (state.selectedProduct?.id === id) {
           state.selectedProduct = null;
         }
-      });
+      })
+
+      .addCase(deleteProductFromList.fulfilled, (state, action) => {
+        const id = action.payload;
+        state.products = state.products.filter(p => p.id !== id);
+      })
   }
 });
 

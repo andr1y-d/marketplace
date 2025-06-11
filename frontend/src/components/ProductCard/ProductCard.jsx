@@ -14,6 +14,9 @@ export const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const photos = product.photos ? JSON.parse(product.photos) : [];
 
+
+  // після цієї стрічки в ProductView 65 line є дубль цого коду
+  // - потрібно забрати дубль
   const userId = useSelector(state => state.user.user?.id);
   const favouritesIds = useSelector(state => state.favourites.favourites);
 
@@ -31,7 +34,10 @@ export const ProductCard = ({ product }) => {
   }, [favouritesIds, product]);
 
   const handleUnauthorizedUserClick = () => {
-    alert("You need to be authorized")
+    alert("реалізувати")
+    // додавання до улюблених неавторизованим користувачам,
+    // ідея щоб зберігати їх локально поки користувач не залогіниться,
+    // після - перенести дані з localstorage в бд для користувача
   }
 
   const handleClick = () => {

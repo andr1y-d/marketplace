@@ -48,16 +48,22 @@ export const createProduct = createAsyncThunk(
 export const changeProduct = createAsyncThunk(
   "product/changeProduct",
   async (data) => {
-    await updateProduct(data);
-    return data;
+    return await updateProduct(data);
   }
 );
 
 export const destroyProduct = createAsyncThunk(
   "product/destroyProduct",
-  async (data) => {
-    await deleteProduct(data);
-    return data;
+  async (id) => {
+    const token = localStorage.getItem('token')
+    return await deleteProduct(id, token);
+  }
+);
+
+export const deleteProductFromList = createAsyncThunk(
+  "product/deleteProductFromList",
+  async (id) => {
+    return id
   }
 );
 

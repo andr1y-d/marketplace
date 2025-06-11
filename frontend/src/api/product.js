@@ -104,13 +104,13 @@ export const updateProduct = async (data) => {
   return response.json();
 }
 
-export const deleteProduct = async (data) => {
-  const response = await fetch(`${BASE_API_URL}/products/${data.product.id}`, {
+export const deleteProduct = async (id, token) => {
+  const response = await fetch(`${BASE_API_URL}/products/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${data.token}`,
+      'Authorization': `Bearer ${token}`,
     },
   });
 
