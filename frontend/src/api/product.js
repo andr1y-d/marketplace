@@ -85,15 +85,17 @@ export const addProduct = async (data, token) => {
   return response.json();
 }
 
-export const updateProduct = async (data) => {
-  const response = await fetch(`${BASE_API_URL}/products/${data.product.id}`, {
-    method: 'PUT',
+export const updateProduct = async (data, token) => {
+  const formData = data.data;
+  formData.append('_method', 'PUT');
+
+  const response = await fetch(`${BASE_API_URL}/products/${data.id}`, {
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': `Bearer ${data.token}`,
+      'Authorization': `Bearer ${token}`,
     },
-    body: JSON.stringify(data.product)
+    body: formData
   });
 
   if (!response.ok) {

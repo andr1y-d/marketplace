@@ -48,7 +48,8 @@ export const createProduct = createAsyncThunk(
 export const changeProduct = createAsyncThunk(
   "product/changeProduct",
   async (data) => {
-    return await updateProduct(data);
+    const token = localStorage.getItem('token');
+    return await updateProduct(data, token);
   }
 );
 

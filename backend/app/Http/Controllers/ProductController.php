@@ -66,15 +66,20 @@ class ProductController extends Controller
 
   public function update(UpdateProductRequest $request, Product $product)
   {
-    if ($product->ownerId !== Auth::id()) {
-      return response()->json(['message' => 'Forbidden'], 403);
-    }
-
     $validated = $request->validated();
+    $validated['ownerId'] = Auth::id();
 
-    if (isset($validated['photos'])) {
-      $validated['photos'] = json_encode($validated['photos']);
+    $imagePaths = [];
+
+    if ($request->hasFile('images')) {
+      foreach ($request->file('images') as $image) {
+        $filename = uniqid() . '_' . $image->getClientOriginalName();
+        $path = $image->storeAs('uploads', $filename, 'public');
+        $imagePaths[] = 'storage/' . $path;
+      }
     }
+
+    $validated['photos'] = json_encode($imagePaths);
 
     $product->update($validated);
 
