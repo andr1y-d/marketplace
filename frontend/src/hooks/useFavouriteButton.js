@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { addToUserFavourites, deleteFromUserFavourites } from "../store/favourites/favouritesThunks";
-import s from "../scenes/Product/ProductView.module.scss";
+import s1 from "scenes/Product/ProductView.module.scss";
+import s2 from "components/ProductCard/ProductCard.module.scss";
 
 export function useFavouriteButton({ product, setFavouriteStyle }) {
   const userId = useSelector(state => state.user.user?.id);
@@ -13,8 +14,8 @@ export function useFavouriteButton({ product, setFavouriteStyle }) {
   useEffect(() => {
     setFavouriteStyle(
       favouritesIds.includes(product.id)
-        ? s.addToFavouritesActiveIcon
-        : s.addToFavouritesIcon
+        ? `${s1.addToFavouritesActiveIcon} ${s2.addToFavouritesActiveIcon}`
+        : `${s1.addToFavouritesIcon} ${s2.addToFavouritesIcon}`
     );
   }, [favouritesIds, product.id]);
 
@@ -28,12 +29,12 @@ export function useFavouriteButton({ product, setFavouriteStyle }) {
   const handleClick = () => {
     if (favouritesIds.includes(product.id)) {
       dispatch(deleteFromUserFavourites(product.id));
-      setFavouriteStyle(s.addToFavouritesIcon);
+      setFavouriteStyle(`${s1.addToFavouritesIcon} ${s2.addToFavouritesIcon}`);
     } else {
       const data = { user_id: userId, product_id: product.id };
       if (isAuthorized) {
         dispatch(addToUserFavourites(data));
-        setFavouriteStyle(s.addToFavouritesActiveIcon);
+        setFavouriteStyle(`${s1.addToFavouritesActiveIcon} ${s2.addToFavouritesActiveIcon}`);
       } else {
         handleUnauthorizedUserClick();
       }
