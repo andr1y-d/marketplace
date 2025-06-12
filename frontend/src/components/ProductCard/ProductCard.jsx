@@ -1,29 +1,24 @@
-import React, {useEffect, useState} from "react";
-import s from './ProductCard.module.scss'
-import { ReactComponent as AddToFavouritesIcon } from 'assets/Apiko Marketplace Shape.svg';
+import React, { useEffect, useState } from "react";
+import { generatePath, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import { BASE_URL } from "api/api";
-import {generatePath, Link} from "react-router-dom";
 import { routes } from "../../App";
-import {useDispatch, useSelector} from "react-redux";
-import {
-  addToUserFavourites,
-  deleteFromUserFavourites,
-} from "../../store/favourites/favouritesThunks";
+
+import { useFavouriteButton } from "../../hooks/useFavouriteButton";
+
+import { ReactComponent as AddToFavouritesIcon } from 'assets/Apiko Marketplace Shape.svg';
+
+import s from './ProductCard.module.scss'
 
 export const ProductCard = ({ product }) => {
-  const dispatch = useDispatch();
   const photos = product.photos ? JSON.parse(product.photos) : [];
-
-
-  // після цієї стрічки в ProductView 65 line є дубль цого коду
-  // - потрібно забрати дубль
-  const userId = useSelector(state => state.user.user?.id);
-  const favouritesIds = useSelector(state => state.favourites.favourites);
-
-  const isAuthorized = useSelector(state => state.user.isAuthenticated)
 
   const [favouriteStyle, setFavouriteStyle] = useState(s.addToFavouritesIcon);
 
+  const favouritesIds = useSelector(state => state.favourites.favourites);
+
+  const { handleClick } = useFavouriteButton({ product, setFavouriteStyle });
 
   useEffect(() => {
     setFavouriteStyle(
@@ -32,32 +27,6 @@ export const ProductCard = ({ product }) => {
         : s.addToFavouritesIcon
     )
   }, [favouritesIds, product]);
-
-  const handleUnauthorizedUserClick = () => {
-    alert("реалізувати")
-    // додавання до улюблених неавторизованим користувачам,
-    // ідея щоб зберігати їх локально поки користувач не залогіниться,
-    // після - перенести дані з localstorage в бд для користувача
-  }
-
-  const handleClick = () => {
-    if(favouritesIds.includes(product.id)) {
-      dispatch(deleteFromUserFavourites(product.id));
-      setFavouriteStyle(s.addToFavouritesIcon);
-    } else {
-      const data = {
-        "user_id": userId,
-        "product_id": product.id,
-      }
-
-      if (isAuthorized) {
-        dispatch(addToUserFavourites(data));
-        setFavouriteStyle(s.addToFavouritesActiveIcon);
-      } else {
-        handleUnauthorizedUserClick()
-      }
-    }
-  }
 
   return  (
     <div className={s.card}>

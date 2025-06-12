@@ -1,92 +1,49 @@
 import React, {Fragment, useEffect, useState} from "react";
-import {generatePath, Link, useNavigate, useParams} from "react-router-dom";
-import {deleteProductFromList, destroyProduct, getProduct} from "store/product/productThunks";
+import { generatePath, Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import s from './ProductView.module.scss';
-import { Carousel } from 'components/Carousel/Carousel';
-import { SearchFilter } from "components/SearchFilter/SearchFilter";
+
+import { useFavouriteButton } from "hooks/useFavouriteButton";
+
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
+
+import { deleteProductFromList, destroyProduct, getProduct } from "store/product/productThunks";
+import { BASE_URL } from "api/api";
+
+import { routes } from "App";
+import { Loader } from "components/Loader/Loader";
+import { Carousel } from 'components/Carousel/Carousel';
+import { SearchFilter } from "components/SearchFilter/SearchFilter";
+
 import { ReactComponent as LocationIcon } from "assets/locationIcon.svg";
 import { ReactComponent as AddToFavouritesIcon } from 'assets/Apiko Marketplace Shape.svg';
-import { routes } from "App";
 import noPhotoImg from "assets/noPhotoImg.jpg";
-import {Loader} from "components/Loader/Loader";
-import {BASE_URL} from "api/api";
-import {addToUserFavourites, deleteFromUserFavourites} from "store/favourites/favouritesThunks";
+
+import s from './ProductView.module.scss';
 
 export const ProductView = () => {
   let productPhotos = [];
-  let productPrice = null;
-  let productDesc = null;
-  let productTitle = null;
-  let productDeploy = null;
-  let productLocation = null;
-
-  let ownerId = null;
-  let ownerName = null;
-  let ownerAvatar = null;
 
   const product = useSelector((state) => state.product.product);
   const loading = useSelector((state) => state.product.loading);
+  const userId = useSelector(state => state.user.user?.id);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const {id} = useParams();
-
-  // після цієї стрічки в ProductCard 34 line є дубль цого коду
-  // - потрібно забрати дубль
-  const userId = useSelector(state => state.user.user?.id);
-  const favouritesIds = useSelector(state => state.favourites.favourites);
-  const isAuthorized = useSelector(state => state.user.isAuthenticated)
 
   const [favouriteStyle, setFavouriteStyle] = useState(s.addToFavouritesIcon);
 
-
-  useEffect(() => {
-    setFavouriteStyle(
-      favouritesIds.includes(product.id)
-        ? s.addToFavouritesActiveIcon
-        : s.addToFavouritesIcon
-    )
-  }, [favouritesIds, product]);
+  const { handleClick } = useFavouriteButton({ product, setFavouriteStyle });
 
   const handleEdit = () => {
     alert('реалізувати')
-    // product edit
   }
 
   const handleDelete = () => {
     dispatch(destroyProduct(product.id))
       .then(() => navigate(routes.home))
     dispatch(deleteProductFromList(product.id))
-  }
-
-  const handleUnauthorizedUserClick = () => {
-    alert("реалізувати")
-    // додавання до улюблених неавторизованим користувачам,
-    // ідея щоб зберігати їх локально поки користувач не залогіниться,
-    // після - перенести дані з localstorage в бд для користувача
-  }
-
-  const handleClick = () => {
-    if(favouritesIds.includes(product.id)) {
-      dispatch(deleteFromUserFavourites(product.id));
-      setFavouriteStyle(s.addToFavouritesIcon);
-    } else {
-      const data = {
-        "user_id": userId,
-        "product_id": product.id,
-      }
-
-      if (isAuthorized) {
-        dispatch(addToUserFavourites(data));
-        setFavouriteStyle(s.addToFavouritesActiveIcon);
-      } else {
-        handleUnauthorizedUserClick()
-      }
-    }
   }
 
   useEffect(() => {
@@ -96,22 +53,14 @@ export const ProductView = () => {
   if (product?.id) {
     try {
       productPhotos = JSON.parse(product.photos);
-      productPrice = product.price;
-      productDesc = product.description;
-      productTitle = product.title;
-      productDeploy = product.updated_at;
-      productLocation = product.location;
-      ownerId = product.owner.id;
-      ownerName = product.owner.fullName;
-      ownerAvatar = product.owner.avatar;
     } catch (e) {
-      console.error("Cannot parse string into array:", e);
+      console.error("Cannot parse photos", e);
     }
   }
 
   dayjs.extend(isToday);
 
-  const date = dayjs(productDeploy);
+  const date = dayjs(product.updated_at);
 
   const formattedDate = date.isToday()
     ? `Today ${date.format('HH:mm')}`
@@ -133,7 +82,7 @@ export const ProductView = () => {
                   {
                     productPhotos
                       ?
-                      <Carousel photos={productPhotos} price={productPrice}/>
+                      <Carousel photos={productPhotos} price={product?.price}/>
                       :
                       <div className={s.productImgContainer}>
                         <img className={s.productImg} src={noPhotoImg} alt="img"/>
@@ -142,38 +91,38 @@ export const ProductView = () => {
                 </div>
                 <div className={s.productInfoContainer}>
                   <div className={s.main}>
-                    <div>{productTitle}</div>
+                    <div>{product?.title}</div>
                     <div>{formattedDate}</div>
                   </div>
                   <div className={s.location}>
                     <LocationIcon className={s.locationIcon}/>
-                    {productLocation}
+                    {product?.location}
                   </div>
                   <hr/>
-                  <div className={s.productDesc}>{productDesc}</div>
+                  <div className={s.productDesc}>{product?.description}</div>
                 </div>
               </div>
               <div className={s.userInfoContainer}>
                 <div className={s.userCard}>
                   <div className={s.userCardHeader}>
                     <div className={s.userAvatar}>
-                      {ownerAvatar && <img src={`${BASE_URL}/${ownerAvatar}`} alt="avatar"/>}
+                      {product.owner?.avatar && <img src={`${BASE_URL}/${product.owner?.avatar}`} alt="avatar"/>}
                     </div>
                   </div>
                   <div className={s.userInfo}>
-                    <Link to={generatePath(routes.userProfile, {id: ownerId || 0})}>{ownerName}</Link>
-                    <div>{productLocation}</div>
+                    <Link to={generatePath(routes.userProfile, {id: product.owner?.id || 0})}>{product.owner?.fullName}</Link>
+                    <div>{product?.location}</div>
                   </div>
                 </div>
                 <div className={s.buttonsContainer}>
                   <div className={s.chat}>CHAT WITH SELLER</div>
-                  <div className={s.addToFavourites} onClick={(e) => handleClick(e)}>
+                  <div className={s.addToFavourites} onClick={handleClick}>
                     <AddToFavouritesIcon className={favouriteStyle} />
                     ADD TO FAVOURITES
                   </div>
                 </div>
                 {
-                  userId === ownerId
+                  userId === product.owner?.id
                   &&
                   <div className={s.actionsOnProduct}>
                     <div className={s.edit} onClick={handleEdit}>EDIT</div>
