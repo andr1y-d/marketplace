@@ -39,17 +39,20 @@ class ProductController extends Controller
     $validated = $request->validated();
     $validated['ownerId'] = Auth::id();
 
-    $imagePaths = [];
+    $allPhotos = [];
 
-    if ($request->hasFile('images')) {
-      foreach ($request->file('images') as $image) {
-        $filename = uniqid() . '_' . $image->getClientOriginalName();
-        $path = $image->storeAs('uploads', $filename, 'public');
-        $imagePaths[] = 'storage/' . $path;
+    if ($request->hasFile('newPhotos')) {
+      foreach ($request->file('newPhotos') as $file) {
+        $path = $file->store('uploads', 'public');
+        $allPhotos[] = 'storage/' . $path;
       }
     }
 
-    $validated['photos'] = json_encode($imagePaths);
+    if ($request->oldPhotos) {
+      $allPhotos = array_merge($allPhotos, $request->oldPhotos);
+    }
+
+    $validated['photos'] = json_encode($allPhotos);
 
     $product = Product::create($validated);
 
@@ -69,17 +72,20 @@ class ProductController extends Controller
     $validated = $request->validated();
     $validated['ownerId'] = Auth::id();
 
-    $imagePaths = [];
+    $allPhotos = [];
 
-    if ($request->hasFile('images')) {
-      foreach ($request->file('images') as $image) {
-        $filename = uniqid() . '_' . $image->getClientOriginalName();
-        $path = $image->storeAs('uploads', $filename, 'public');
-        $imagePaths[] = 'storage/' . $path;
+    if ($request->hasFile('newPhotos')) {
+      foreach ($request->file('newPhotos') as $file) {
+        $path = $file->store('uploads', 'public');
+        $allPhotos[] = 'storage/' . $path;
       }
     }
 
-    $validated['photos'] = json_encode($imagePaths);
+    if ($request->oldPhotos) {
+      $allPhotos = array_merge($allPhotos, $request->oldPhotos);
+    }
+
+    $validated['photos'] = json_encode($allPhotos);
 
     $product->update($validated);
 
