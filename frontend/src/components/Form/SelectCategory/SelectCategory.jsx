@@ -5,7 +5,7 @@ import { ReactComponent as CategoryIcon } from "assets/categoryGrid.svg";
 
 import s from "../../Modals/AddProductModal/AddProductModal.module.scss";
 
-export const SelectCategory = ({ name ,label, setCategory, category }) => {
+export const SelectCategory = ({ name ,label, setCategory, category, initVal }) => {
   const redBorderStyle = {
     border: "1px solid red",
     outline: "none",
@@ -30,7 +30,7 @@ export const SelectCategory = ({ name ,label, setCategory, category }) => {
           {label}
           <div className={s.select} style={meta.touched && meta.error ? redBorderStyle : normalStyle}>
             <CategoryIcon className={s.icon} />
-            <select id="categoryFilter" {...field} value={category} onChange={handleChanges}>
+            <select id="categoryFilter" {...field} value={category ? category : initVal} onChange={handleChanges}>
               <option value="" hidden>Choose category</option>
               <option value="Electronics">Electronics</option>
               <option value="Car">Car</option>

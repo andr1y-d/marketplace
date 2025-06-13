@@ -1,10 +1,10 @@
 import React from "react";
 import s from './Header.module.scss'
 
-export const Header = ({setOpen}) => {
+export const Header = ({ setOpen , title }) => {
   return (
     <div className={s.formHeader}>
-      <div>Add Product</div>
+      <div>{title}</div>
       <img
         className={s.formCloseBtn}
         src={require('../../../../assets/closeIcon.png')}

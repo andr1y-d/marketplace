@@ -4,6 +4,8 @@
   left: 10%;
   right: 10%;
   height: 80vh;
+  max-width: 1000px;
+  margin: auto;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -81,5 +83,10 @@
   .submitSellButton {
     width: 50% !important;
     height: 40px !important;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background: #349A89;
+    cursor: pointer;
   }
 }

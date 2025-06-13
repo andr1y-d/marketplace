@@ -10,8 +10,16 @@ export const SellButton = () => {
 
   return (
     <div>
-      <button onClick={() => setIsOpen(true)}>SELL</button>
-      {isOpen && (isAuthorized ? <AddProductModal setOpen={setIsOpen} /> : <MakeUserLoginModal setOpen={setIsOpen} />)}
+      <button className={s.button} onClick={() => setIsOpen(true)}>SELL</button>
+      {
+        isOpen
+        &&
+        (
+          isAuthorized
+            ? <AddProductModal setOpen={setIsOpen} title="Add product" type="add" />
+            : <MakeUserLoginModal setOpen={setIsOpen} />
+        )
+      }
     </div>
   );
 };

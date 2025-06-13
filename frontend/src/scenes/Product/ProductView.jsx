@@ -20,6 +20,7 @@ import { ReactComponent as AddToFavouritesIcon } from 'assets/Apiko Marketplace 
 import noPhotoImg from "assets/noPhotoImg.jpg";
 
 import s from './ProductView.module.scss';
+import {AddProductModal} from "../../components/Modals/AddProductModal/AddProductModal";
 
 export const ProductView = () => {
   let productPhotos = [];
@@ -33,11 +34,12 @@ export const ProductView = () => {
   const {id} = useParams();
 
   const [favouriteStyle, setFavouriteStyle] = useState(s.addToFavouritesIcon);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { handleClick } = useFavouriteButton({ product, setFavouriteStyle });
 
   const handleEdit = () => {
-    alert('реалізувати')
+    setIsModalOpen(true)
   }
 
   const handleDelete = () => {
@@ -69,6 +71,17 @@ export const ProductView = () => {
   return (
     <Fragment>
       <SearchFilter/>
+      {
+        isModalOpen
+        &&
+        <AddProductModal
+          setOpen={setIsModalOpen}
+          title="Edit product"
+          type="edit"
+          id={product?.id}
+          product={product}
+        />
+      }
       <div className={s.viewContainer}>
         <div className={s.container}>
           {
@@ -80,7 +93,7 @@ export const ProductView = () => {
               <div className={s.productContainer}>
                 <div className={s.carousel}>
                   {
-                    productPhotos
+                    productPhotos.length > 0
                       ?
                       <Carousel photos={productPhotos} price={product?.price}/>
                       :
@@ -125,8 +138,12 @@ export const ProductView = () => {
                   userId === product.owner?.id
                   &&
                   <div className={s.actionsOnProduct}>
-                    <div className={s.edit} onClick={handleEdit}>EDIT</div>
-                    <div className={s.delete} onClick={handleDelete}>DELETE</div>
+                    <div className={s.edit} onClick={handleEdit}>
+                      EDIT
+                    </div>
+                    <div className={s.delete} onClick={handleDelete}>
+                      DELETE
+                    </div>
                   </div>
                 }
               </div>
