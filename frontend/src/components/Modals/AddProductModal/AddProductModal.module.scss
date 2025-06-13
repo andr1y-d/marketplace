@@ -3,8 +3,9 @@
   top: 80px;
   left: 10%;
   right: 10%;
-  height: 80vh;
+  height: 85vh;
   max-width: 1000px;
+  box-sizing: border-box;
   margin: auto;
   background-color: #fff;
   border-radius: 5px;
@@ -12,7 +13,8 @@
   z-index: 10;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 10%;
+  justify-content: start;
   align-items: center;
   padding: 30px;
 
@@ -54,7 +56,7 @@
         select {
           background-color: transparent;
           border: none;
-          margin: 0 4px;
+          width: auto;
         }
 
         select:focus {
@@ -88,5 +90,16 @@
     color: white;
     background: #349A89;
     cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    border-radius: 0;
+    box-sizing: border-box;
+    justify-content: start;
+    gap: 18%;
   }
 }
