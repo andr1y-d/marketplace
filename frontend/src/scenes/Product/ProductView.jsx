@@ -14,13 +14,13 @@ import { routes } from "App";
 import { Loader } from "components/Loader/Loader";
 import { Carousel } from 'components/Carousel/Carousel';
 import { SearchFilter } from "components/SearchFilter/SearchFilter";
+import { AddProductModal } from "components/Modals/AddProductModal/AddProductModal";
 
 import { ReactComponent as LocationIcon } from "assets/locationIcon.svg";
 import { ReactComponent as AddToFavouritesIcon } from 'assets/Apiko Marketplace Shape.svg';
-import noPhotoImg from "assets/noPhotoImg.jpg";
 
+import noPhotoImg from "assets/noPhotoImg.jpg";
 import s from './ProductView.module.scss';
-import {AddProductModal} from "../../components/Modals/AddProductModal/AddProductModal";
 
 export const ProductView = () => {
   let productPhotos = [];
@@ -93,7 +93,7 @@ export const ProductView = () => {
               <div className={s.productContainer}>
                 <div className={s.carousel}>
                   {
-                    productPhotos.length > 0
+                    productPhotos?.length > 0
                       ?
                       <Carousel photos={productPhotos} price={product?.price}/>
                       :
