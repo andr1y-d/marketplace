@@ -33,19 +33,23 @@ export const Carousel = ({ photos = [], price }) => {
         </div>
         <div className={s.embla__viewport__price}>${price}</div>
       </div>
-      <div className={s.embla__controls}>
-        <button className={s.embla__button} onClick={scrollPrev}>‹</button>
-        <div className={s.embla__dots}>
-          {photos.map((_, index) => (
-            <button
-              key={index}
-              className={`${s.embla__dot} ${index === selectedIndex ? s["is-selected"] : ""}`}
-              onClick={() => emblaApi?.scrollTo(index)}
-            />
-          ))}
+      {
+        photos.length > 1
+        &&
+        <div className={s.embla__controls}>
+          <button className={s.embla__button} onClick={scrollPrev}>‹</button>
+          <div className={s.embla__dots}>
+            {photos.map((_, index) => (
+              <button
+                key={index}
+                className={`${s.embla__dot} ${index === selectedIndex ? s["is-selected"] : ""}`}
+                onClick={() => emblaApi?.scrollTo(index)}
+              />
+            ))}
+          </div>
+          <button className={s.embla__button} onClick={scrollNext}>›</button>
         </div>
-        <button className={s.embla__button} onClick={scrollNext}>›</button>
-      </div>
+      }
     </div>
   );
 };
