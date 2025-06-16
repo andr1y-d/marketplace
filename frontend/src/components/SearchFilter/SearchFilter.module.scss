@@ -70,16 +70,22 @@
   }
 
   .searchBtn {
+    border: none;
     border-radius: 3px;
     width: 20%;
     height: 50px;
     color: white;
     background-color: #3E3961;
+    cursor: pointer;
 
     @media (max-width: 650px) {
       width: 100%;
       height: 40px;
     }
+  }
+
+  .searchBtn:hover {
+    background-color: #595385;
   }
 
   @media (max-width: 675px) {

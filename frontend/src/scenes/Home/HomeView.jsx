@@ -12,10 +12,11 @@ export const HomeView = () => {
   const [maxPrice, setMaxPrice] = useState(Infinity)
 
   const products = useSelector(state => state.product.products);
+  const searchFiltered = useSelector(state => state.product.filtered)
   const loading = useSelector(state => state.product.loading);
 
   const categoryFiltered = category === "" ? products : products.filter(product => product.category === category);
-  const filtered = categoryFiltered.filter(product => Number(product.price) < maxPrice && Number(product.price) >= minPrice);
+  const filtered = searchFiltered || categoryFiltered.filter(product => Number(product.price) < maxPrice && Number(product.price) >= minPrice);
 
   return (
     <Fragment>
