@@ -6,11 +6,10 @@ import {ProductCard} from "components/ProductCard/ProductCard";
 import {Loader} from "components/Loader/Loader";
 
 import s from "./FavouritesView.module.scss";
-import {MakeUserLoginModal} from "../../components/Modals/MakeUserLoginModal/MakeUserLoginModal";
 
 export const FavouritesView = () => {
   const products = useSelector(state => state.product.products);
-  const isAuthorized = useSelector(state => state.user.isAuthenticated)
+  const filteredProducts = useSelector(state => state.product.filtered)
 
   const favouritesIds = useSelector(state => state.favourites.favourites);
   const favouritesSet = new Set(favouritesIds);
@@ -19,9 +18,11 @@ export const FavouritesView = () => {
 
   const loading = useSelector(state => state.favourites.loading);
 
+  const filteredFavProducts  = filteredProducts.filter(product => favouritesSet.has(product.id))
+
   useEffect(() => {
-    setFavourites(products.filter(product => favouritesSet.has(product.id)))
-  }, [favouritesIds, products]);
+    setFavourites(filteredFavProducts ? filteredFavProducts : products.filter(product => favouritesSet.has(product.id)))
+  }, [products, filteredProducts]);
 
   return (
     <Fragment>

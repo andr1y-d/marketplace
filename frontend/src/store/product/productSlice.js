@@ -9,6 +9,7 @@ import {
   latestProducts,
   deleteProductFromList,
 } from './productThunks';
+import {useSelector} from "react-redux";
 
 const productSlice = createSlice({
   name: 'products',
@@ -19,8 +20,34 @@ const productSlice = createSlice({
     latest: [],
     loading: false,
     error: null,
+    filtered: null,
   },
-  reducers: {},
+  reducers: {
+    filter: (state, action) => {
+      const { name, location } = action.payload;
+
+      let tempProducts = state.products;
+
+      if (name) {
+        const searchTermName = name.toLowerCase();
+        tempProducts = tempProducts.filter(product =>
+          product.title.toLowerCase().includes(searchTermName)
+        );
+      }
+
+      if (location) {
+        const searchTermLocation = location.toLowerCase();
+        tempProducts = tempProducts.filter(product =>
+          product.location && product.location.toLowerCase().includes(searchTermLocation)
+        );
+      }
+
+      state.filtered = tempProducts;
+    },
+    clearFilter: (state) => {
+      state.filtered = [];
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getProducts.pending, (state) => {
@@ -113,4 +140,5 @@ const productSlice = createSlice({
   }
 });
 
+export const { filter, clearFilter } = productSlice.actions;
 export default productSlice.reducer;
