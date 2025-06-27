@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import s from "./MakeUserLoginModal.module.scss";
 import {Link} from "react-router-dom";
 import {routes} from "../../../App";
+import {ReactComponent as Icon} from 'assets/closeIcon.svg'
 
 export const MakeUserLoginModal = ({ setOpen }) => {
   useEffect(() => {
@@ -13,9 +14,9 @@ export const MakeUserLoginModal = ({ setOpen }) => {
   return (
     <div className={s.modalContainer}>
       <div className={s.modal}>
-        <img
+
+        <Icon
           className={s.formCloseBtn}
-          src={require('../../../assets/closeIcon.png')}
           alt="close"
           onClick={() => {
             setOpen(false);
