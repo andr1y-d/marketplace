@@ -21,6 +21,7 @@ import { ReactComponent as AddToFavouritesIcon } from 'assets/Apiko Marketplace 
 
 import noPhotoImg from "assets/noPhotoImg.jpg";
 import s from './ProductView.module.scss';
+import {ChatWithSellerModal} from "../../components/Modals/ChatWithSellerModal/ChatWithSellerModal";
 
 export const ProductView = () => {
   let productPhotos = [];
@@ -35,11 +36,16 @@ export const ProductView = () => {
 
   const [favouriteStyle, setFavouriteStyle] = useState(s.addToFavouritesIcon);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { handleClick } = useFavouriteButton({ product, setFavouriteStyle });
 
   const handleEdit = () => {
     setIsModalOpen(true)
+  }
+
+  const handleChat = () => {
+    setIsOpen(true)
   }
 
   const handleDelete = () => {
@@ -80,6 +86,18 @@ export const ProductView = () => {
           type="edit"
           id={product?.id}
           product={product}
+        />
+      }
+      {
+        isOpen
+        &&
+        <ChatWithSellerModal
+          setOpen={setIsOpen}
+          title="Contact seller"
+          subject={product?.title}
+          ownerName={product.owner?.fullName}
+          ownerLocation={product?.location}
+          ownerAvatar={product.owner?.avatar}
         />
       }
       <div className={s.viewContainer}>
@@ -128,7 +146,13 @@ export const ProductView = () => {
                   </div>
                 </div>
                 <div className={s.buttonsContainer}>
-                  <div className={s.chat}>CHAT WITH SELLER</div>
+                  {
+                    userId !== product.owner?.id
+                    &&
+                    <div className={s.chat} onClick={handleChat}>
+                      CHAT WITH SELLER
+                    </div>
+                  }
                   <div className={s.addToFavourites} onClick={handleClick}>
                     <AddToFavouritesIcon className={favouriteStyle} />
                     ADD TO FAVOURITES

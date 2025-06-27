@@ -18,7 +18,7 @@ export const FavouritesView = () => {
 
   const loading = useSelector(state => state.favourites.loading);
 
-  const filteredFavProducts  = filteredProducts.filter(product => favouritesSet.has(product.id))
+  const filteredFavProducts  = filteredProducts?.filter(product => favouritesSet.has(product.id))
 
   useEffect(() => {
     setFavourites(filteredFavProducts ? filteredFavProducts : products.filter(product => favouritesSet.has(product.id)))

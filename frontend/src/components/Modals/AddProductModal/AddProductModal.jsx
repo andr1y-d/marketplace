@@ -6,7 +6,7 @@ import {changeProduct, createProduct, getProduct} from "store/product/productThu
 
 import { Form, Formik } from "formik";
 
-import { Header } from './Header/Header'
+import { Header } from '../Header/Header'
 import { PhotoUploader } from "../../Form/PhotoUploader/PhotoUploader";
 import { Input } from "../../Form/Input/Input";
 import { SelectCategory } from "../../Form/SelectCategory/SelectCategory";

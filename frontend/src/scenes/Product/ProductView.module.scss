@@ -95,8 +95,10 @@
       height: 100%;
 
       .userCard {
-        height: 130px;
         background-color: white;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        height: 130px;
 
 
         .userCardHeader {
@@ -111,7 +113,7 @@
             bottom: -50%;
             width: 55px;
             height: 55px;
-            background-color: #956a4d;
+            background-color: #3e5a52;
             border-radius: 50%;
             overflow: hidden;
 
@@ -119,6 +121,10 @@
               object-fit: cover;
               width: 100%;
               height: 100%;
+            }
+
+            @media (max-width: 900px) {
+              bottom: -40% !important;
             }
           }
         }
@@ -129,7 +135,7 @@
           padding-bottom: 5px;
           border-top: 0;
           border-radius:  0 0 5px 5px;
-          height: 80px;
+          height: calc(100% - 45px);
           display: flex;
           justify-content: end;
           align-items: center;
@@ -146,18 +152,26 @@
           }
 
           @media (max-width: 900px) {
+            min-height: calc(100% - 45px);
+            height: auto;
+          }
 
+          @media (max-width: 630px) {
+            height: 75px;
           }
         }
 
         @media (max-width: 900px) {
           width: 50%;
-          height: 100%;
+          height: 120px;
+          margin: 0;
           min-width: 210px;
         }
 
         @media (max-width: 630px) {
           width: 100%;
+          height: 100%;
+          margin-bottom: 0;
         }
       }
 
@@ -169,6 +183,7 @@
         @media (max-width: 900px) {
           margin: 0;
           width: 50%;
+          gap: 10px;
           min-width: 200px;
           justify-content: space-between;
         }
@@ -188,17 +203,19 @@
         background-color: #349A89;
         border-radius: 5px;
         color: white;
-        margin: 10px 0;
+        margin: 0 0 10px 0;
         cursor: pointer;
 
         @media (max-width: 900px) {
           margin: 0;
           height: 60px;
+          min-height: 55px;
         }
       }
 
       .addToFavourites {
-        height: 45px;
+        min-height: 45px;
+        height: auto;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -247,6 +264,10 @@
         }
 
         @media (max-width: 900px) {
+          height: 100%;
+        }
+
+        @media (max-width: 630px) {
           height: 60px;
         }
       }
@@ -326,6 +347,10 @@
 
     @media (max-width: 900px) {
       flex-direction: column;
+    }
+
+    @media (max-width: 630px) {
+      gap: 20px;
     }
   }
 
