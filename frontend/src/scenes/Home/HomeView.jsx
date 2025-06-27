@@ -15,8 +15,21 @@ export const HomeView = () => {
   const searchFiltered = useSelector(state => state.product.filtered)
   const loading = useSelector(state => state.product.loading);
 
-  const categoryFiltered = category === "" ? products : products.filter(product => product.category === category);
-  const filtered = searchFiltered || categoryFiltered.filter(product => Number(product.price) < maxPrice && Number(product.price) >= minPrice);
+  const baseFiltered = category === ""
+    ? products
+    : products.filter(product => product.category === category);
+
+  const priceFiltered = baseFiltered.filter(product =>
+    Number(product.price) < maxPrice && Number(product.price) >= minPrice
+  );
+
+  const finalFiltered = searchFiltered !== null && searchFiltered !== undefined
+    ? searchFiltered.filter(product =>
+      Number(product.price) < maxPrice &&
+      Number(product.price) >= minPrice &&
+      (category === "" || product.category === category)
+    )
+    : priceFiltered;
 
   return (
     <Fragment>
@@ -28,7 +41,7 @@ export const HomeView = () => {
           <Loader/>
           :
           <div className={s.homeContainer}>
-            {filtered.map((el, index) => (
+            {finalFiltered.map((el, index) => (
               <ProductCard product={el} key={index} />
             ))}
           </div>
